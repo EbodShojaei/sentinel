@@ -3,8 +3,8 @@ database.py: Handles SQL database interactions for storing search results and me
 Uses SQLAlchemy for ORM.
 """
 
-from sqlalchemy import create_engine, Column, Integer, String, Text, DateTime
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy import create_engine, Column, Integer, String, Text, DateTime, ForeignKey
+from sqlalchemy.orm import sessionmaker, declarative_base, relationship
 from datetime import datetime
 
 Base = declarative_base()
@@ -13,14 +13,15 @@ class SearchResult(Base):
     __tablename__ = 'search_results'
     
     id = Column(Integer, primary_key=True)
-    ref_id = Column(String(10), unique=True, nullable=False)
-    pmid = Column(String(20), nullable=False)
-    title = Column(Text, nullable=False)
+    pmid = Column(String(20))
+    title = Column(Text)
     authors = Column(Text)
     abstract = Column(Text)
     doi = Column(String(100))
     link = Column(Text)
     year = Column(Integer)
+    metadata_id = Column(Integer, ForeignKey('metadata.id'))
+    search_metadata = relationship("Metadata", back_populates="search_results")
 
 class Metadata(Base):
     __tablename__ = 'metadata'
@@ -31,6 +32,7 @@ class Metadata(Base):
     research_purpose = Column(Text, nullable=False)
     mesh_strategy = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
+    search_results = relationship("SearchResult", back_populates="search_metadata")
 
 def init_db(db_url: str = "sqlite:///search.db"):
     """
@@ -59,23 +61,22 @@ def store_metadata(session, min_year, max_year, research_purpose, mesh_strategy)
     )
     session.add(metadata)
     session.flush()  # Flush to assign an ID if needed
+    return metadata.id
 
-def store_search_results(session, articles):
+def store_search_results(session, articles, metadata_id):
     """
     Store search results in the database.
-    Generates a unique RefID for each article.
+    Links each result to the corresponding metadata entry.
     """
-    for idx, article in enumerate(articles, start=1):
-        ref_id = f"S{idx:05d}"
-        article["RefID"] = ref_id
+    for article in articles:
         result = SearchResult(
-            ref_id=ref_id,
             pmid=article.get("PMID", "N/A"),
             title=article.get("Title", "No Title"),
             authors=article.get("Authors", "No Authors"),
             abstract=article.get("Abstract", "No Abstract"),
             doi=article.get("DOI", "N/A"),
             link=article.get("Link", "N/A"),
-            year=article.get("Year", 0)
+            year=article.get("Year", 0),
+            metadata_id = metadata_id
         )
         session.add(result)
