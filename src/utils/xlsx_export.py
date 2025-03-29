@@ -1,5 +1,5 @@
 """
-csv_export.py: Contains functions to export the search results and metadata to an Excel file with two tabs.
+xlsx_export.py: Contains functions to export the search results and metadata to an Excel file with two tabs.
 """
 
 import os
