@@ -5,16 +5,15 @@ main.py: Entry point for the terminal-based AI agent that retrieves PubMed artic
 import argparse
 import logging
 import sys
-import datetime
 from src.utils.extract_values import extract_years_from_query, extract_query_from_markdown
 from src.agent import generate_research_purpose, generate_mesh_strategy
 from src.utils.pubmed_search import run_pubmed_search
 from src.utils.database import init_db, store_metadata, store_search_results, get_engine_session
 from src.utils.csv_export import export_to_excel
+from src.config import DEFAULT_DATE_RANGE
 
 # Setup logging
-logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s [%(levelname)s] %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 
 
 def parse_arguments():
@@ -44,16 +43,17 @@ def main():
             min_year, max_year, user_query = extracted_years
             logging.info("Extracted date range from query: %d to %d", min_year, max_year)
         else:
-            logging.warning("No date range found in the query. Using default values.")
-            max_year = datetime.datetime.now().year
-            min_year = max_year - 5
+            max_year = DEFAULT_DATE_RANGE["MAX_YEAR"]
+            min_year = DEFAULT_DATE_RANGE["MIN_YEAR"]
+            logging.warning("No date range found in the query. Using default values: %d to %d", min_year, max_year)
     else:
         min_year = args.min_year
         max_year = args.max_year
 
     # Generate research purpose using local phi3.5
     user_query.strip()
-    research_purpose = generate_research_purpose(user_query)
+    research_purpose_raw = generate_research_purpose(user_query)
+    research_purpose = extract_query_from_markdown(research_purpose_raw)
     logging.info(research_purpose)
 
     # Generate MeSH search strategy using local phi3.5
@@ -70,9 +70,9 @@ def main():
     engine = init_db()
     session = get_engine_session(engine)
     try:
-        store_metadata(session, min_year, max_year,
+        metadata_id = store_metadata(session, min_year, max_year,
                        research_purpose, mesh_strategy)
-        store_search_results(session, search_results)
+        store_search_results(session, search_results, metadata_id)
         session.commit()
         logging.info("Data stored successfully in the database.")
     except Exception as e:
@@ -84,8 +84,7 @@ def main():
     # Export to Excel if requested
     if args.export:
         try:
-            export_to_excel(search_results, min_year, max_year,
-                            research_purpose, mesh_strategy)
+            export_to_excel(session, metadata_id)
             logging.info("Data exported successfully to output.xlsx")
         except Exception as e:
             logging.error("Error exporting data: %s", str(e))
