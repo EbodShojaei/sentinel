@@ -66,7 +66,7 @@ MODEL_ID=phi3.5
 Run the application from the terminal:
 
 ```bash
-python main.py --query "I want the most relevant retrospective articles for knee osteoarthritis patients treated with placebo between 2000 and 2025" --export
+python main.py --query "efficacy of placebo injections in knee osteoarthritis patients between 2000 and 2025" --export
 ```
 
 - If `--query` is not provided, you will be prompted to enter it interactively.
@@ -81,22 +81,22 @@ See the below example for running a custom query:
 python main.py
 Using PubMed API key for enhanced rate limits.
 Enter your search query: efficacy of placebo injections in knee osteoarthritis patients
-2025-03-28 19:18:15,801 [WARNING] No date range found in the query. Using default values.
-2025-03-28 19:18:22,224 [INFO] HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-2025-03-28 19:18:22,591 [INFO] HTTP Request: POST https://api.phidata.com/v1/telemetry/agent/run/create "HTTP/1.1 200 OK"
-2025-03-28 19:18:35,854 [INFO] HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-2025-03-28 19:18:36,203 [INFO] HTTP Request: POST https://api.phidata.com/v1/telemetry/agent/run/create "HTTP/1.1 200 OK"
-2025-03-28 19:18:36,204 [INFO] To determine the impact of placebo injections on symptom relief and quality of life improvement for patients with knee osteoarthritis.
-2025-03-28 19:18:56,448 [INFO] HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-2025-03-28 19:18:56,791 [INFO] HTTP Request: POST https://api.phidata.com/v1/telemetry/agent/run/create "HTTP/1.1 200 OK"
-2025-03-28 19:19:07,519 [INFO] HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
-2025-03-28 19:19:07,862 [INFO] HTTP Request: POST https://api.phidata.com/v1/telemetry/agent/run/create "HTTP/1.1 200 OK"
-2025-03-28 19:19:07,864 [INFO] (knee osteoarthritis OR arthritis knees) AND (placebo injection NOT actual medication) AND symptom relief OR quality of life improvement
-2025-03-28 19:19:07,864 [INFO] Executing PubMed search...
-Final query for PubMed: (knee osteoarthritis OR arthritis knees) AND (placebo injection NOT actual medication) AND symptom relief OR quality of life improvement AND "2020/01/01"[dp] : "2025/12/31"[dp]
-Found 250 PubMed IDs
-2025-03-28 19:19:17,112 [INFO] Retrieved 250 search results
-2025-03-28 19:19:17,170 [INFO] Data stored successfully in the database.
+2025-03-28 20:58:24,835 [WARNING] No date range found in the query. Using default values: 2020 to 2025
+2025-03-28 20:58:33,472 [INFO] HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+2025-03-28 20:58:33,834 [INFO] HTTP Request: POST https://api.phidata.com/v1/telemetry/agent/run/create "HTTP/1.1 200 OK"
+2025-03-28 20:58:41,921 [INFO] HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+2025-03-28 20:58:42,270 [INFO] HTTP Request: POST https://api.phidata.com/v1/telemetry/agent/run/create "HTTP/1.1 200 OK"
+2025-03-28 20:58:42,272 [INFO] To assess whether placebo injections offer measurable improvements beyond psychological effects on physical health outcomes such as pain management and functional mobility among adults suffering from knee osteoarthritis, this study will evaluate their efficacy.
+2025-03-28 20:59:02,339 [INFO] HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+2025-03-28 20:59:02,680 [INFO] HTTP Request: POST https://api.phidata.com/v1/telemetry/agent/run/create "HTTP/1.1 200 OK"
+2025-03-28 20:59:07,426 [INFO] HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+2025-03-28 20:59:07,777 [INFO] HTTP Request: POST https://api.phidata.com/v1/telemetry/agent/run/create "HTTP/1.1 200 OK"
+2025-03-28 20:59:07,778 [INFO] (osteoarthritis knee) AND ((placebo injection treatment) AND (pain relief OR analgesia OR symptom improvement)) AND (functionality OR mobility)
+2025-03-28 20:59:07,778 [INFO] Executing PubMed search...
+Final query for PubMed: (osteoarthritis knee) AND ((placebo injection treatment) AND (pain relief OR analgesia OR symptom improvement)) AND (functionality OR mobility) AND "2020/01/01"[dp] : "2025/12/31"[dp]
+Found 74 PubMed IDs
+2025-03-28 20:59:19,417 [INFO] Retrieved 74 search results
+2025-03-28 20:59:19,460 [INFO] Data stored successfully in the database.
 ```
 
 ## License
