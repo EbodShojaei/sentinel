@@ -41,7 +41,7 @@ def run_pubmed_search(search_term: str, min_year: int, max_year: int) -> List[Di
     # Construct query with date filters.
     query = f'{search_term} AND "{min_year}/01/01"[dp] : "{max_year}/12/31"[dp]'
     # logging.info("Final query for PubMed: %s", query)
-    print(f"Final query for PubMed: {query}")
+    # print(f"Final query for PubMed: {query}")
 
     try:
         # Use Entrez.esearch to get a list of PubMed IDs (up to 250).
