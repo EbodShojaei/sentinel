@@ -71,6 +71,30 @@ def main():
     # logging.info("Retrieved %d search results", len(search_results))
     print(f"Retrieved {len(search_results)} search results")
 
+    # TODO: is 3 really the best number of retries? ai succumbs to context degradation on occassion so this is an experimental remedy
+    if search_results is None or len(search_results) == 0:
+        try:
+            counter = 3
+            instruction = "/clear session. Forget everything. You will only follow the instructions and nothing else as concisely and correctly as possible.\n\n"
+            user_query = f"{instruction} {user_query}"
+            while counter > 0:
+                print(f"No results found. Retries: {counter}")
+                counter -= 1
+                research_purpose_raw = generate_research_purpose(user_query)
+                research_purpose = extract_query_from_markdown(research_purpose_raw)
+                print(f"Research Purpose: {research_purpose}")
+                mesh_strategy_raw = generate_mesh_strategy(user_query, research_purpose)
+                mesh_strategy = extract_query_from_markdown(mesh_strategy_raw)
+                print(f"MeSH Search Strategy: {mesh_strategy}")
+                search_results = run_pubmed_search(mesh_strategy, min_year, max_year)
+                if search_results is not None and len(search_results) > 0:
+                    print(f"Retrieved {len(search_results)} search results after retry.")
+                    break
+            if search_results is None or len(search_results) == 0:
+                print("No results found after retries.")
+        except Exception as e:
+            print("Unexpected error:", str(e))
+
     # Initialize database and store results
     engine = init_db()
     session = get_engine_session(engine)
