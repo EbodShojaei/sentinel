@@ -5,7 +5,7 @@ xlsx_export.py: Contains functions to export the search results and metadata to 
 import os
 import pandas as pd
 from datetime import datetime
-from src.utils.database import SearchResult, Metadata
+from src.utils.database import SearchResult, SearchMetadata
 
 def check_filename(filename):
     """
@@ -43,11 +43,11 @@ def export_to_excel(session, metadata_id, filename="output.xlsx"):
     """
     Export search results and metadata to an Excel file with two sheets.
     Sheet1: Search Results
-    Sheet2: Metadata
+    Sheet2: SearchMetadata
     """
     # Retrieve data from database
     results = session.query(SearchResult).filter(SearchResult.metadata_id == metadata_id).all()
-    metadata = session.query(Metadata).filter(Metadata.id == metadata_id).first()
+    metadata = session.query(SearchMetadata).filter(SearchMetadata.id == metadata_id).first()
 
     # Create DataFrame for search results
     results_data = []
@@ -78,5 +78,5 @@ def export_to_excel(session, metadata_id, filename="output.xlsx"):
 
     # Export to Excel with two sheets
     with pd.ExcelWriter(filename) as writer:
-        df_results.to_excel(writer, sheet_name="Search Results", index=False)
-        df_metadata.to_excel(writer, sheet_name="Metadata", index=False)
+        df_results.to_excel(writer, sheet_name="SearchResults", index=False)
+        df_metadata.to_excel(writer, sheet_name="SearchMetadata", index=False)

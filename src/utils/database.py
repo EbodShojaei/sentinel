@@ -20,11 +20,11 @@ class SearchResult(Base):
     doi = Column(String(100))
     link = Column(Text)
     year = Column(Integer)
-    metadata_id = Column(Integer, ForeignKey('metadata.id'))
-    search_metadata = relationship("Metadata", back_populates="search_results")
+    metadata_id = Column(Integer, ForeignKey('search_metadata.id'))
+    search_metadata = relationship("SearchMetadata", back_populates="search_results")
 
-class Metadata(Base):
-    __tablename__ = 'metadata'
+class SearchMetadata(Base):
+    __tablename__ = 'search_metadata'
     
     id = Column(Integer, primary_key=True)
     min_year = Column(Integer, nullable=False)
@@ -53,7 +53,7 @@ def store_metadata(session, min_year, max_year, research_purpose, mesh_strategy)
     """
     Store metadata in the database.
     """
-    metadata = Metadata(
+    metadata = SearchMetadata(
         min_year=min_year,
         max_year=max_year,
         research_purpose=research_purpose,
