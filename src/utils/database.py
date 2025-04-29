@@ -80,3 +80,9 @@ def store_search_results(session, articles, metadata_id):
             metadata_id = metadata_id
         )
         session.add(result)
+
+def retrieve_all_searches(session):
+    """
+    Retrieve all searches from the database.
+    """
+    return session.query(SearchMetadata).all()
