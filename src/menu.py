@@ -9,7 +9,6 @@ from src.utils.extract_values import extract_years_from_query, extract_query_fro
 from src.agent import generate_research_purpose, generate_mesh_strategy
 from src.utils.pubmed_search import run_pubmed_search
 from src.utils.database import init_db, store_metadata, store_search_results, get_engine_session
-# You will need to implement this if not already
 from src.utils.database import retrieve_all_searches
 from src.utils.xlsx_export import export_to_excel
 from src.config import DEFAULT_DATE_RANGE
