@@ -9,6 +9,8 @@ This application is a terminal-based AI agent that:
 - Stores the search results and metadata in a relational SQL database.
 - Allows the user to export the search results and metadata to an Excel file with two tabs.
 
+Watch the demo (as of version 1.0.3): [Video](https://youtu.be/MO7oLftEFaY?si=zbub_zpP1GBzms8R)
+
 ## File Structure
 
 ```plaintext
