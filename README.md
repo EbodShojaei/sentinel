@@ -19,6 +19,7 @@ sentinel/
 │   ├── __init__.py
 │   ├── agent.py
 │   ├── config.py
+│   ├── menu.py
 │   └── utils/
 │       ├── __init__.py
 │       ├── xlsx_export.py
@@ -65,7 +66,7 @@ MODEL_ID=phi3.5
 
 ## Usage
 
-Run the application from the terminal:
+Run the application from the terminal **with provided arguments**:
 
 ```bash
 python main.py --query "efficacy of placebo injections in knee osteoarthritis patients between 2000 and 2025" --export
@@ -74,6 +75,42 @@ python main.py --query "efficacy of placebo injections in knee osteoarthritis pa
 - If `--query` is not provided, you will be prompted to enter it interactively.
 - Optionally specify `--min_year` and `--max_year` for the publication date range (defaults to the last 5 years).
 - The `--export` flag will export the results to an Excel file (`output.xlsx`).
+
+Alternatively, run the application **without any arguments** to open the menu and choose between running a new search, or exporting prior search results:
+
+```bash
+python main.py
+Using PubMed API key for enhanced rate limits.
+
+[Sentinel]: Welcome to Sentinel, how can I assist you today?
+
+Menu:
+1. Run new PubMed search
+2. View history and export results
+3. Quit
+Enter your choice: 1
+[Sentinel]: Enter your search query or 'r' to return: r
+[Sentinel]: Returning to menu.
+
+Menu:
+1. Run new PubMed search
+2. View history and export results
+3. Quit
+Enter your choice: 2
+[1] Research Purpose: To assess whether placebo injections have significant efficacy compared to standard treatments or no intervention at all, on symptom relief for knee osteoarthritis patients within a controlled clinical study setting., Date Range: 2000-2025
+[2] Research Purpose: To assess the efficacy of placebo injections as a therapeutic intervention for alleviating pain symptoms among knee osteoarthritis patients., Date Range: 2000-2025
+
+[Sentinel]: Would you like to export any of these? Enter number or 'r' to return: r
+[Sentinel]: Returning to menu.
+
+Menu:
+1. Run new PubMed search
+2. View history and export results
+3. Quit
+Enter your choice: 3
+
+[Sentinel]: Goodbye!
+```
 
 ## Example Output
 
