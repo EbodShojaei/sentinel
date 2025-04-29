@@ -37,6 +37,13 @@ def check_filename(filename):
     if not filename.startswith("data"):
         filename = os.path.join("data", filename)
 
+    # if same file name exists, append a number
+    base, ext = os.path.splitext(filename)
+    counter = 1
+    while os.path.exists(filename):
+        filename = f"{base}({counter}){ext}"
+        counter += 1
+
     return filename
 
 def export_to_excel(session, metadata_id, filename="output.xlsx"):
